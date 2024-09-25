@@ -1,18 +1,34 @@
 import { Link } from "react-router-dom";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Search from "../components/Search";
 import beersJSON from "./../assets/beers.json";
+import axios from "axios";
 
 
 
 function AllBeersPage() {
   // Mock initial state, to be replaced by data from the API. Once you retrieve the list of beers from the Beers API store it in this state variable.
-  const [beers, setBeers] = useState(beersJSON);
+  const [beers, setBeers] = useState(null);
 
-
+ 
 
   // TASKS:
   // 1. Set up an effect hook to make a request to the Beers API and get a list with all the beers.
+
+  //creamos el useEffect de llamada a la API
+  //useEffect = axios.get().then((set use State)).catch( error gestion)
+  useEffect(()=>{
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/beers`)
+    .then((response)=>{
+      console.log(response)
+      setBeers(response.data)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+  }, [])
+
+
   // 2. Use axios to make a HTTP request.
   // 3. Use the response data from the Beers API to update the state variable.
 
@@ -24,7 +40,7 @@ function AllBeersPage() {
       <Search />
 
       <div className="d-inline-flex flex-wrap justify-content-center align-items-center w-100 p-4">
-        {beers &&
+        { (beers !== null) ?
           beers.map((beer, i) => {
             return (
               <div key={i}>
@@ -48,7 +64,12 @@ function AllBeersPage() {
                 </Link>
               </div>
             );
-          })}
+          })
+          :(
+            <div>
+              <p>cargando</p>
+            </div>)
+        }
       </div>
     </>
   );
