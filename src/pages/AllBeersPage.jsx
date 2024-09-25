@@ -14,7 +14,8 @@ function AllBeersPage() {
 
   // TASKS:
   // 1. Set up an effect hook to make a request to the Beers API and get a list with all the beers.
-
+// 2. Use axios to make a HTTP request.
+  // 3. Use the response data from the Beers API to update the state variable.
   //creamos el useEffect de llamada a la API
   //useEffect = axios.get().then((set use State)).catch( error gestion)
   useEffect(()=>{
@@ -27,11 +28,6 @@ function AllBeersPage() {
       console.log(error)
     })
   }, [])
-
-
-  // 2. Use axios to make a HTTP request.
-  // 3. Use the response data from the Beers API to update the state variable.
-
 
 
   // The logic and the structure for the page showing the list of beers. You can leave this as it is for now.
@@ -67,7 +63,8 @@ function AllBeersPage() {
           })
           :(
             <div>
-              <p>cargando</p>
+        <p>*_*...cargando</p>
+
             </div>)
         }
       </div>
