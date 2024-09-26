@@ -10,7 +10,27 @@ function AllBeersPage() {
   // Mock initial state, to be replaced by data from the API. Once you retrieve the list of beers from the Beers API store it in this state variable.
   const [beers, setBeers] = useState(null);
 
- 
+  const [searchValue, setSearchValue ] = useState("")
+
+  //para la busqueda utilizamos otro useEffect para cuando cambiemos el campo de busqueda, en este caso para cuando Update, compDidUpdated
+  useEffect(()=>{
+
+    (searchValue === "") ?
+     
+    axios.get(`${import.meta.env.VITE_SERVER_URL}/beers`)
+    : axios.get(`${import.meta.env.VITE_SERVER_URL}/beers/search?q=${searchValue}`)
+    
+    .then((response)=>{
+      console.log(response)
+      setBeers(response.data)
+    })
+    .catch((error)=>{
+      console.log(error)
+    })
+
+
+  },[searchValue])
+  
 
   // TASKS:
   // 1. Set up an effect hook to make a request to the Beers API and get a list with all the beers.
@@ -33,7 +53,10 @@ function AllBeersPage() {
   // The logic and the structure for the page showing the list of beers. You can leave this as it is for now.
   return (
     <>
-      <Search />
+      <Search 
+      searchValue={searchValue}
+      setSearchValue={setSearchValue}
+      />
 
       <div className="d-inline-flex flex-wrap justify-content-center align-items-center w-100 p-4">
         { (beers !== null) ?
